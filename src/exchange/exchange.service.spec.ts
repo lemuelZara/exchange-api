@@ -1,4 +1,7 @@
-import { BadRequestException } from '@nestjs/common';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CurrenciesService, ExchangeService } from './exchange.service';
 
@@ -63,6 +66,16 @@ describe('ExchangeService', () => {
       await expect(currenciesService.getCurrency).toHaveBeenLastCalledWith(
         'BRL',
       );
+    });
+
+    it('should be throw when getCurrency throw', async () => {
+      (currenciesService.getCurrency as jest.Mock).mockRejectedValue(
+        new Error(),
+      );
+
+      await expect(
+        service.convertAmount({ from: 'INVALID', to: 'BRL', amount: 10 }),
+      ).rejects.toBeInstanceOf(InternalServerErrorException);
     });
   });
 });
