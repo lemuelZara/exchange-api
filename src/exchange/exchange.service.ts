@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 export class CurrenciesService {
   async getCurrency(currency: string): Promise<any> {}
@@ -13,7 +17,11 @@ export class ExchangeService {
       throw new BadRequestException();
     }
 
-    const currencyFrom = await this.currenciesService.getCurrency(from);
-    const currencyTo = await this.currenciesService.getCurrency(to);
+    try {
+      const currencyFrom = await this.currenciesService.getCurrency(from);
+      const currencyTo = await this.currenciesService.getCurrency(to);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }
