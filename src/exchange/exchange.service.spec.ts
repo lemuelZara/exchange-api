@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ExchangeService } from './exchange.service';
 
@@ -24,7 +25,17 @@ describe('ExchangeService', () => {
           to: '',
           amount: 0,
         }),
-      ).rejects.toThrow();
+      ).rejects.toThrow(new BadRequestException());
+    });
+
+    it('should be not throw if called with valid params', async () => {
+      await expect(
+        service.convertAmount({
+          from: 'USD',
+          to: 'BRL',
+          amount: 10,
+        }),
+      ).resolves.not.toThrow();
     });
   });
 });
