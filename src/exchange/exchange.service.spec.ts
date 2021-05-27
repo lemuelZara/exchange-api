@@ -6,12 +6,42 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CurrenciesService, ExchangeService } from './exchange.service';
 
 describe('ExchangeService', () => {
+  const USD = 1;
+  const BRL = 0.2;
+
   let service: ExchangeService;
   let currenciesService: CurrenciesService;
 
+  const mockGetCurrencyUSDtoUSD = () => {
+    (currenciesService.getCurrency as jest.Mock).mockReturnValueOnce({
+      value: USD,
+    });
+    (currenciesService.getCurrency as jest.Mock).mockReturnValueOnce({
+      value: USD,
+    });
+  };
+
+  const mockGetCurrencyUSDtoBRL = () => {
+    (currenciesService.getCurrency as jest.Mock).mockReturnValueOnce({
+      value: USD,
+    });
+    (currenciesService.getCurrency as jest.Mock).mockReturnValueOnce({
+      value: BRL,
+    });
+  };
+
+  const mockGetCurrencyBRLtoUSD = () => {
+    jest
+      .spyOn(currenciesService, 'getCurrency')
+      .mockResolvedValueOnce({ value: BRL });
+    jest
+      .spyOn(currenciesService, 'getCurrency')
+      .mockResolvedValueOnce({ value: USD });
+  };
+
   beforeEach(async () => {
     const mockCurrenciesService = {
-      getCurrency: jest.fn(),
+      getCurrency: jest.fn().mockReturnValue({ value: 1 }),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -76,6 +106,26 @@ describe('ExchangeService', () => {
       await expect(
         service.convertAmount({ from: 'INVALID', to: 'BRL', amount: 10 }),
       ).rejects.toBeInstanceOf(InternalServerErrorException);
+    });
+
+    it('should be return correct conversion value', async () => {
+      mockGetCurrencyUSDtoUSD();
+
+      expect(
+        await service.convertAmount({ from: 'USD', to: 'USD', amount: 10 }),
+      ).toEqual({ amount: 10 });
+
+      mockGetCurrencyUSDtoBRL();
+
+      expect(
+        await service.convertAmount({ from: 'USD', to: 'BRL', amount: 10 }),
+      ).toEqual({ amount: 50 });
+
+      mockGetCurrencyBRLtoUSD();
+
+      expect(
+        await service.convertAmount({ from: 'BRL', to: 'USD', amount: 10 }),
+      ).toEqual({ amount: 2 });
     });
   });
 });
