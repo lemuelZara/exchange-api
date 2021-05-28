@@ -126,5 +126,11 @@ describe('CurrenciesService', () => {
     it('should be not throw if repository return', async () => {
       await expect(service.updateCurrency(mockData)).resolves.not.toThrow();
     });
+
+    it('should be called repository with correct params', async () => {
+      await service.updateCurrency(mockData);
+
+      expect(repository.updateCurrency).toHaveBeenCalledWith(mockData);
+    });
   });
 });
