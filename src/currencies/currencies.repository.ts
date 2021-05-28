@@ -1,8 +1,10 @@
+import { EntityRepository, Repository } from 'typeorm';
 import { Currencies } from './currencies.entity';
 
-export class CurrenciesRepository {
+@EntityRepository(Currencies)
+export class CurrenciesRepository extends Repository<Currencies> {
   async getCurrency(currency: string): Promise<Currencies> {
-    return new Currencies();
+    return await this.findOne({ currency });
   }
 
   async createCurrency({ currency, value }): Promise<Currencies> {
