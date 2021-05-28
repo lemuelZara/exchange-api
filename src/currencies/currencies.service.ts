@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 export class CurrenciesRepository {
   async getCurrency(currency: string): Promise<any> {}
@@ -9,10 +9,6 @@ export class CurrenciesService {
   constructor(private currenciesRepository: CurrenciesRepository) {}
 
   async getCurrency(currency: string): Promise<any> {
-    try {
-      return await this.currenciesRepository.getCurrency(currency);
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
+    return await this.currenciesRepository.getCurrency(currency);
   }
 }
