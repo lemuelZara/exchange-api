@@ -1,5 +1,6 @@
 import { InternalServerErrorException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Currencies } from './currencies.entity';
 import { CurrenciesRepository } from './currencies.repository';
 
 describe('CurrenciesRepository', () => {
@@ -32,6 +33,17 @@ describe('CurrenciesRepository', () => {
       await expect(repository.getCurrency('USD')).rejects.toThrow(
         new InternalServerErrorException(),
       );
+    });
+
+    it('should be returns success result when findOne returns', async () => {
+      jest
+        .spyOn(repository, 'findOne')
+        .mockReturnValue({ currency: 'USD', value: 10 } as Currencies);
+
+      expect(await repository.getCurrency('USD')).toEqual({
+        currency: 'USD',
+        value: 10,
+      });
     });
   });
 });
