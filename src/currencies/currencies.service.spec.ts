@@ -14,6 +14,7 @@ describe('CurrenciesService', () => {
           provide: CurrenciesRepository,
           useFactory: () => ({
             getCurrency: jest.fn(),
+            createCurrency: jest.fn(),
           }),
         },
       ],
@@ -57,6 +58,18 @@ describe('CurrenciesService', () => {
         currency: 'USD',
         value: 10,
       });
+    });
+  });
+
+  describe('CreateCurrency', () => {
+    it('should be throw if repository throw', async () => {
+      (repository.createCurrency as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
+
+      await expect(
+        service.createCurrency({ currency: 'USD', value: 10 }),
+      ).rejects.toThrow(new InternalServerErrorException());
     });
   });
 });
