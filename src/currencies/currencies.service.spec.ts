@@ -71,5 +71,11 @@ describe('CurrenciesService', () => {
         service.createCurrency({ currency: 'USD', value: 10 }),
       ).rejects.toThrow(new InternalServerErrorException());
     });
+
+    it('should be not throw if repository returns success value', async () => {
+      await expect(
+        service.createCurrency({ currency: 'USD', value: 10 }),
+      ).resolves.not.toThrow();
+    });
   });
 });
