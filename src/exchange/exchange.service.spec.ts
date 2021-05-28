@@ -36,10 +36,10 @@ describe('ExchangeService', () => {
   const mockGetCurrencyBRLtoUSD = () => {
     jest
       .spyOn(currenciesService, 'getCurrency')
-      .mockResolvedValueOnce({ value: BRL });
+      .mockResolvedValueOnce({ currency: 'BRL', value: BRL });
     jest
       .spyOn(currenciesService, 'getCurrency')
-      .mockResolvedValueOnce({ value: USD });
+      .mockResolvedValueOnce({ currency: 'USD', value: USD });
   };
 
   beforeEach(async () => {
