@@ -1,4 +1,7 @@
-import { InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CurrenciesRepository, CurrenciesService } from './currencies.service';
 
@@ -98,6 +101,14 @@ describe('CurrenciesService', () => {
         currency: 'USD',
         value: 10,
       });
+    });
+
+    it('should be throw if value <= 0', async () => {
+      await expect(
+        service.createCurrency({ currency: 'USD', value: 0 }),
+      ).rejects.toThrow(
+        new BadRequestException('The value must be greater zero.'),
+      );
     });
   });
 });
