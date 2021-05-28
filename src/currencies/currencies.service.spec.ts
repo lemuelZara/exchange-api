@@ -140,5 +140,11 @@ describe('CurrenciesService', () => {
         new BadRequestException('The value must be greater zero.'),
       );
     });
+
+    it('should be return success value when repository return', async () => {
+      jest.spyOn(repository, 'updateCurrency').mockReturnValue(mockData);
+
+      expect(await service.updateCurrency(mockData)).toEqual(mockData);
+    });
   });
 });
