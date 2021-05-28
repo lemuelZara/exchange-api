@@ -122,5 +122,9 @@ describe('CurrenciesService', () => {
         new InternalServerErrorException(),
       );
     });
+
+    it('should be not throw if repository return', async () => {
+      await expect(service.updateCurrency(mockData)).resolves.not.toThrow();
+    });
   });
 });
