@@ -86,5 +86,18 @@ describe('CurrenciesService', () => {
         value: 10,
       });
     });
+
+    it('should be return success value when repository return', async () => {
+      jest
+        .spyOn(repository, 'createCurrency')
+        .mockResolvedValueOnce({ currency: 'USD', value: 10 });
+
+      expect(
+        await service.createCurrency({ currency: 'USD', value: 10 }),
+      ).toEqual({
+        currency: 'USD',
+        value: 10,
+      });
+    });
   });
 });
