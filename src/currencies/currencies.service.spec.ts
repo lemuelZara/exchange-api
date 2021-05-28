@@ -163,5 +163,11 @@ describe('CurrenciesService', () => {
     it('should be not throw if repository return', async () => {
       await expect(service.deleteCurrency('USD')).resolves.not.toThrow();
     });
+
+    it('should be called repository with correct params', async () => {
+      await service.deleteCurrency('USD');
+
+      expect(repository.deleteCurrency).toHaveBeenCalledWith('USD');
+    });
   });
 });
