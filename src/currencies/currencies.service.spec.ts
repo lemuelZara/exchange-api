@@ -15,6 +15,7 @@ describe('CurrenciesService', () => {
       getCurrency: jest.fn(),
       createCurrency: jest.fn(),
       updateCurrency: jest.fn(),
+      deleteCurrency: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -145,6 +146,18 @@ describe('CurrenciesService', () => {
       jest.spyOn(repository, 'updateCurrency').mockReturnValue(mockData);
 
       expect(await service.updateCurrency(mockData)).toEqual(mockData);
+    });
+  });
+
+  describe('DeleteCurrency', () => {
+    it('should be throw if repository throw', async () => {
+      (repository.deleteCurrency as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
+
+      await expect(service.deleteCurrency('INVALID')).rejects.toThrow(
+        new InternalServerErrorException(),
+      );
     });
   });
 });
