@@ -77,5 +77,14 @@ describe('CurrenciesService', () => {
         service.createCurrency({ currency: 'USD', value: 10 }),
       ).resolves.not.toThrow();
     });
+
+    it('should be called repository with correct params', async () => {
+      await service.createCurrency({ currency: 'USD', value: 10 });
+
+      expect(repository.createCurrency).toHaveBeenCalledWith({
+        currency: 'USD',
+        value: 10,
+      });
+    });
   });
 });
