@@ -8,6 +8,7 @@ import { CurrenciesRepository, CurrenciesService } from './currencies.service';
 describe('CurrenciesService', () => {
   let service: CurrenciesService;
   let repository: CurrenciesRepository;
+  let mockData;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -25,6 +26,7 @@ describe('CurrenciesService', () => {
 
     service = module.get<CurrenciesService>(CurrenciesService);
     repository = module.get<CurrenciesRepository>(CurrenciesRepository);
+    mockData = { currency: 'USD', value: 10 };
   });
 
   it('should be defined', () => {
@@ -70,19 +72,17 @@ describe('CurrenciesService', () => {
         new InternalServerErrorException(),
       );
 
-      await expect(
-        service.createCurrency({ currency: 'USD', value: 10 }),
-      ).rejects.toThrow(new InternalServerErrorException());
+      await expect(service.createCurrency(mockData)).rejects.toThrow(
+        new InternalServerErrorException(),
+      );
     });
 
     it('should be not throw if repository returns success value', async () => {
-      await expect(
-        service.createCurrency({ currency: 'USD', value: 10 }),
-      ).resolves.not.toThrow();
+      await expect(service.createCurrency(mockData)).resolves.not.toThrow();
     });
 
     it('should be called repository with correct params', async () => {
-      await service.createCurrency({ currency: 'USD', value: 10 });
+      await service.createCurrency(mockData);
 
       expect(repository.createCurrency).toHaveBeenCalledWith({
         currency: 'USD',
@@ -91,22 +91,18 @@ describe('CurrenciesService', () => {
     });
 
     it('should be return success value when repository return', async () => {
-      jest
-        .spyOn(repository, 'createCurrency')
-        .mockResolvedValueOnce({ currency: 'USD', value: 10 });
+      jest.spyOn(repository, 'createCurrency').mockResolvedValueOnce(mockData);
 
-      expect(
-        await service.createCurrency({ currency: 'USD', value: 10 }),
-      ).toEqual({
+      expect(await service.createCurrency(mockData)).toEqual({
         currency: 'USD',
         value: 10,
       });
     });
 
     it('should be throw if value <= 0', async () => {
-      await expect(
-        service.createCurrency({ currency: 'USD', value: 0 }),
-      ).rejects.toThrow(
+      mockData.value = 0;
+
+      await expect(service.createCurrency(mockData)).rejects.toThrow(
         new BadRequestException('The value must be greater zero.'),
       );
     });
