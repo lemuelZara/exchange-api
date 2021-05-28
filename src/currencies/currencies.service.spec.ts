@@ -132,5 +132,13 @@ describe('CurrenciesService', () => {
 
       expect(repository.updateCurrency).toHaveBeenCalledWith(mockData);
     });
+
+    it('should be throw if value <= 0', async () => {
+      mockData.value = 0;
+
+      await expect(service.updateCurrency(mockData)).rejects.toThrow(
+        new BadRequestException('The value must be greater zero.'),
+      );
+    });
   });
 });
