@@ -57,6 +57,15 @@ describe('CurrenciesRepository', () => {
       expect(repository.save).toBeCalledWith(mockData);
     });
 
+    it('should be throw if called save with incorrect params', async () => {
+      mockData.currency = 'INVALID';
+      await expect(repository.createCurrency(mockData)).rejects.toThrow();
+
+      mockData.currency = 'USD';
+      mockData.value = 'INVALID';
+      await expect(repository.createCurrency(mockData)).rejects.toThrow();
+    });
+
     it('should be throw when save throws', async () => {
       jest.spyOn(repository, 'save').mockRejectedValue(new Error());
 
