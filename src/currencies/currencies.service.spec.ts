@@ -61,14 +61,9 @@ describe('CurrenciesService', () => {
     });
 
     it('should be return success value when repository return', async () => {
-      jest
-        .spyOn(repository, 'getCurrency')
-        .mockResolvedValueOnce({ currency: 'USD', value: 10 });
+      jest.spyOn(repository, 'getCurrency').mockResolvedValueOnce(mockData);
 
-      expect(await service.getCurrency('USD')).toEqual({
-        currency: 'USD',
-        value: 10,
-      });
+      expect(await service.getCurrency('USD')).toEqual(mockData);
     });
   });
 

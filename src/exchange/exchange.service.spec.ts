@@ -3,6 +3,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Currencies } from 'src/currencies/currencies.entity';
 import { CurrenciesService } from '../currencies/currencies.service';
 import { ExchangeService } from './exchange.service';
 import { ExchangeInputType } from './types/exchange-input.type';
@@ -36,10 +37,10 @@ describe('ExchangeService', () => {
   const mockGetCurrencyBRLtoUSD = () => {
     jest
       .spyOn(currenciesService, 'getCurrency')
-      .mockResolvedValueOnce({ currency: 'BRL', value: BRL });
+      .mockResolvedValueOnce({ currency: 'BRL', value: BRL } as Currencies);
     jest
       .spyOn(currenciesService, 'getCurrency')
-      .mockResolvedValueOnce({ currency: 'USD', value: USD });
+      .mockResolvedValueOnce({ currency: 'USD', value: USD } as Currencies);
   };
 
   beforeEach(async () => {
