@@ -60,7 +60,7 @@ describe('CurrenciesRepository', () => {
     it('should be throw when save throws', async () => {
       jest.spyOn(repository, 'save').mockRejectedValue(new Error());
 
-      await expect(repository.save(mockData)).rejects.toThrow();
+      await expect(repository.createCurrency(mockData)).rejects.toThrow();
     });
 
     it('should be returns success result when save created data', async () => {
