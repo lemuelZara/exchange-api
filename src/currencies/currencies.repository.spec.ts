@@ -5,6 +5,7 @@ import { CurrenciesRepository } from './currencies.repository';
 
 describe('CurrenciesRepository', () => {
   let repository;
+  let mockData;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -12,6 +13,7 @@ describe('CurrenciesRepository', () => {
     }).compile();
 
     repository = module.get<CurrenciesRepository>(CurrenciesRepository);
+    mockData = { currency: 'USD', value: 1 } as Currencies;
   });
 
   it('should be defined', () => {
@@ -36,14 +38,23 @@ describe('CurrenciesRepository', () => {
     });
 
     it('should be returns success result when findOne returns', async () => {
-      jest
-        .spyOn(repository, 'findOne')
-        .mockReturnValue({ currency: 'USD', value: 10 } as Currencies);
+      jest.spyOn(repository, 'findOne').mockReturnValue(mockData);
 
-      expect(await repository.getCurrency('USD')).toEqual({
-        currency: 'USD',
-        value: 10,
-      });
+      expect(await repository.getCurrency('USD')).toEqual(mockData);
+    });
+  });
+
+  describe('CreateCurrency', () => {
+    beforeEach(() => {
+      repository.save = jest.fn();
+    });
+
+    it('should be called save with correct params', async () => {
+      jest.spyOn(repository, 'save').mockReturnValue(mockData);
+
+      await repository.createCurrency(mockData);
+
+      expect(repository.save).toBeCalledWith(mockData);
     });
   });
 });
