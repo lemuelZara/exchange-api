@@ -56,5 +56,11 @@ describe('CurrenciesRepository', () => {
 
       expect(repository.save).toBeCalledWith(mockData);
     });
+
+    it('should be throw when save throws', async () => {
+      jest.spyOn(repository, 'save').mockRejectedValue(new Error());
+
+      await expect(repository.save(mockData)).rejects.toThrow();
+    });
   });
 });
