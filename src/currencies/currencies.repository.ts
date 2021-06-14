@@ -1,4 +1,5 @@
 import { InternalServerErrorException } from '@nestjs/common';
+import { validateOrReject } from 'class-validator';
 import { EntityRepository, Repository } from 'typeorm';
 import { Currencies } from './currencies.entity';
 import { CurrenciesInputType } from './types/currency-input.type';
@@ -20,7 +21,13 @@ export class CurrenciesRepository extends Repository<Currencies> {
 
     Object.assign(currency, currencyData);
 
-    await this.save(currency);
+    try {
+      await validateOrReject(currency);
+
+      await this.save(currency);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
 
     return currency;
   }
