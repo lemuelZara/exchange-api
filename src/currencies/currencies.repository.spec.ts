@@ -62,5 +62,9 @@ describe('CurrenciesRepository', () => {
 
       await expect(repository.save(mockData)).rejects.toThrow();
     });
+
+    it('should be returns success result when save created data', async () => {
+      expect(await repository.createCurrency(mockData)).toEqual(mockData);
+    });
   });
 });
