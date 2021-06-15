@@ -47,7 +47,11 @@ export class CurrenciesRepository extends Repository<Currencies> {
 
     result.value = value;
 
-    await this.save(result);
+    try {
+      await this.save(result);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
 
     return new Currencies();
   }
