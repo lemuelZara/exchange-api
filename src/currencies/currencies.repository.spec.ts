@@ -128,4 +128,14 @@ describe('CurrenciesRepository', () => {
       expect(result).toEqual({ currency: 'USD', value: 2 });
     });
   });
+
+  describe('DeleteCurrency', () => {
+    it('should be called findOne with correct params', async () => {
+      jest.spyOn(repository, 'findOne').mockReturnValue({});
+
+      await repository.deleteCurrency('USD');
+
+      expect(repository.findOne).toBeCalledWith({ currency: 'USD' });
+    });
+  });
 });
