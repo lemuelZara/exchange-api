@@ -53,7 +53,7 @@ export class CurrenciesRepository extends Repository<Currencies> {
       throw new InternalServerErrorException(error);
     }
 
-    return new Currencies();
+    return result;
   }
 
   async deleteCurrency(currency: string): Promise<void> {
