@@ -113,5 +113,19 @@ describe('CurrenciesRepository', () => {
         new InternalServerErrorException(),
       );
     });
+
+    it('should be returns success updated data', async () => {
+      jest
+        .spyOn(repository, 'findOne')
+        .mockReturnValue({ currency: 'USD', value: 1 });
+      jest.spyOn(repository, 'save').mockReturnValue({});
+
+      const result = await repository.updateCurrency({
+        currency: 'USD',
+        value: 2,
+      });
+
+      expect(result).toEqual({ currency: 'USD', value: 2 });
+    });
   });
 });
