@@ -36,6 +36,8 @@ export class CurrenciesRepository extends Repository<Currencies> {
     currency,
     value,
   }: CurrenciesInputType): Promise<Currencies> {
+    const result = await this.findOne({ currency });
+
     return new Currencies();
   }
 
