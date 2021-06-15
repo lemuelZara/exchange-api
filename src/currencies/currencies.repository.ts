@@ -63,6 +63,10 @@ export class CurrenciesRepository extends Repository<Currencies> {
       throw new NotFoundException(`The currency ${currency} not found!`);
     }
 
-    await this.delete(result);
+    try {
+      await this.delete(result);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }
