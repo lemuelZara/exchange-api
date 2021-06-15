@@ -17,6 +17,7 @@ describe('CurrenciesRepository', () => {
 
     repository = module.get<CurrenciesRepository>(CurrenciesRepository);
     repository.save = jest.fn();
+    repository.delete = jest.fn();
     mockData = { currency: 'USD', value: 1 } as Currencies;
   });
 
@@ -144,6 +145,15 @@ describe('CurrenciesRepository', () => {
       await expect(repository.deleteCurrency('INVALID')).rejects.toThrow(
         new NotFoundException(`The currency INVALID not found!`),
       );
+    });
+
+    it('should be called delete with correct params', async () => {
+      jest.spyOn(repository, 'findOne').mockReturnValue(mockData);
+      jest.spyOn(repository, 'delete').mockReturnValue({});
+
+      await repository.deleteCurrency('USD');
+
+      expect(repository.delete).toBeCalledWith(mockData);
     });
   });
 });
