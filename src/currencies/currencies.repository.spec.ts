@@ -16,6 +16,7 @@ describe('CurrenciesRepository', () => {
     }).compile();
 
     repository = module.get<CurrenciesRepository>(CurrenciesRepository);
+    repository.save = jest.fn();
     mockData = { currency: 'USD', value: 1 } as Currencies;
   });
 
@@ -48,10 +49,6 @@ describe('CurrenciesRepository', () => {
   });
 
   describe('CreateCurrency', () => {
-    beforeEach(() => {
-      repository.save = jest.fn();
-    });
-
     it('should be called save with correct params', async () => {
       jest.spyOn(repository, 'save').mockReturnValue(mockData);
 
@@ -95,6 +92,15 @@ describe('CurrenciesRepository', () => {
       await expect(repository.updateCurrency(mockData)).rejects.toThrow(
         new NotFoundException(`The currency ${mockData.currency} not found!`),
       );
+    });
+
+    it('should be called save with correct params', async () => {
+      jest.spyOn(repository, 'findOne').mockReturnValue(mockData);
+      jest.spyOn(repository, 'save').mockReturnValue(mockData);
+
+      await repository.updateCurrency(mockData);
+
+      expect(repository.save).toBeCalledWith(mockData);
     });
   });
 });
