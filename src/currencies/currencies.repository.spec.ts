@@ -102,5 +102,16 @@ describe('CurrenciesRepository', () => {
 
       expect(repository.save).toBeCalledWith(mockData);
     });
+
+    it('should be throw when save throws', async () => {
+      jest.spyOn(repository, 'findOne').mockReturnValue(mockData);
+      jest
+        .spyOn(repository, 'save')
+        .mockRejectedValue(new InternalServerErrorException());
+
+      await expect(repository.updateCurrency(mockData)).rejects.toThrow(
+        new InternalServerErrorException(),
+      );
+    });
   });
 });
