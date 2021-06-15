@@ -155,5 +155,16 @@ describe('CurrenciesRepository', () => {
 
       expect(repository.delete).toBeCalledWith(mockData);
     });
+
+    it('should be throw if delete throws', async () => {
+      jest.spyOn(repository, 'findOne').mockReturnValue(mockData);
+      jest
+        .spyOn(repository, 'delete')
+        .mockRejectedValue(new InternalServerErrorException());
+
+      await expect(repository.delete('USD')).rejects.toThrow(
+        new InternalServerErrorException(),
+      );
+    });
   });
 });
