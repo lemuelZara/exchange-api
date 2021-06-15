@@ -137,5 +137,13 @@ describe('CurrenciesRepository', () => {
 
       expect(repository.findOne).toBeCalledWith({ currency: 'USD' });
     });
+
+    it('should be throw if findOne returns empty', async () => {
+      jest.spyOn(repository, 'findOne').mockReturnValue(undefined);
+
+      await expect(repository.deleteCurrency('INVALID')).rejects.toThrow(
+        new NotFoundException(`The currency INVALID not found!`),
+      );
+    });
   });
 });
