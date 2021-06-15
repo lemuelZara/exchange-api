@@ -1,4 +1,3 @@
-import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, Length } from 'class-validator';
 import {
   Column,
@@ -24,7 +23,6 @@ export class Currencies {
   @Column()
   @IsNotEmpty()
   @IsNumber()
-  @Type(() => Number)
   value: number;
 
   @CreateDateColumn({ type: 'timestamp' })
