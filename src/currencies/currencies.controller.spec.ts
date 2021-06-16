@@ -40,5 +40,11 @@ describe('CurrenciesController', () => {
         new BadRequestException(),
       );
     });
+
+    it('should be called service with correct params', async () => {
+      await controller.getCurrency('USD');
+
+      expect(service.getCurrency).toBeCalledWith('USD');
+    });
   });
 });
