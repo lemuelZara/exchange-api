@@ -1,6 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CurrenciesController } from './currencies.controller';
+import { Currencies } from './currencies.entity';
 import { CurrenciesService } from './currencies.service';
 
 describe('CurrenciesController', () => {
@@ -45,6 +46,17 @@ describe('CurrenciesController', () => {
       await controller.getCurrency('USD');
 
       expect(service.getCurrency).toBeCalledWith('USD');
+    });
+
+    it('should be returns success service data', async () => {
+      const mockData = {
+        currency: 'USD',
+        value: 1,
+      } as Currencies;
+
+      jest.spyOn(service, 'getCurrency').mockResolvedValue(mockData);
+
+      expect(await service.getCurrency('USD')).toEqual(mockData);
     });
   });
 });
