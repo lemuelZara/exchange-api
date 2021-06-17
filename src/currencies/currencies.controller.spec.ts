@@ -59,7 +59,7 @@ describe('CurrenciesController', () => {
     it('should be returns success service data', async () => {
       jest.spyOn(service, 'getCurrency').mockResolvedValue(mockData);
 
-      expect(await service.getCurrency('USD')).toEqual(mockData);
+      expect(await controller.getCurrency('USD')).toEqual(mockData);
     });
   });
 
@@ -83,7 +83,7 @@ describe('CurrenciesController', () => {
     it('should be returns success service data', async () => {
       jest.spyOn(service, 'createCurrency').mockResolvedValue(mockData);
 
-      expect(await service.createCurrency(mockData)).toEqual(mockData);
+      expect(await controller.createCurrency(mockData)).toEqual(mockData);
     });
   });
 
