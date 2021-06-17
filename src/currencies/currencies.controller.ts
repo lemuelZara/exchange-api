@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -33,5 +34,10 @@ export class CurrenciesController {
   @Delete('/:currency')
   async deleteCurrency(@Param('currency') currency: string): Promise<void> {
     return await this.currenciesService.deleteCurrency(currency);
+  }
+
+  @Put('/')
+  async updateCurrency(@Body() currency: CreateCurrencyDTO) {
+    throw new BadRequestException();
   }
 }
