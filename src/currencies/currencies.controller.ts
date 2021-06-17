@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   UsePipes,
@@ -36,8 +37,11 @@ export class CurrenciesController {
     return await this.currenciesService.deleteCurrency(currency);
   }
 
-  @Put('/')
-  async updateCurrency(@Body() currency: CreateCurrencyDTO) {
-    throw new BadRequestException();
+  @Patch('/:currency/value')
+  async updateCurrency(
+    @Param('currency') currency: string,
+    @Body('value') value: number,
+  ) {
+    return await this.currenciesService.updateCurrency({ currency, value });
   }
 }
