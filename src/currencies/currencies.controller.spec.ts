@@ -121,5 +121,13 @@ describe('CurrenciesController', () => {
 
       expect(service.updateCurrency).toBeCalledWith(mockData);
     });
+
+    it('should be returns success service data', async () => {
+      jest.spyOn(service, 'updateCurrency').mockResolvedValue(mockData);
+
+      expect(
+        await controller.updateCurrency(mockData.currency, mockData.value),
+      ).toEqual(mockData);
+    });
   });
 });
