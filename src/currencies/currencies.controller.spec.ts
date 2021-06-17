@@ -111,9 +111,15 @@ describe('CurrenciesController', () => {
         .spyOn(service, 'updateCurrency')
         .mockRejectedValue(new BadRequestException());
 
-      expect(controller.updateCurrency(mockData)).rejects.toThrow(
-        new BadRequestException(),
-      );
+      expect(
+        controller.updateCurrency(mockData.currency, mockData.value),
+      ).rejects.toThrow(new BadRequestException());
+    });
+
+    it('should be called service with correct params', async () => {
+      await controller.updateCurrency(mockData.currency, mockData.value);
+
+      expect(service.updateCurrency).toBeCalledWith(mockData);
     });
   });
 });
