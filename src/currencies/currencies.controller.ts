@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { Currencies } from './currencies.entity';
 import { CurrenciesService } from './currencies.service';
+import { CreateCurrencyDTO } from './dto/create-currency.dto';
 
 @Controller('currencies')
 export class CurrenciesController {
@@ -19,7 +20,9 @@ export class CurrenciesController {
   }
 
   @Post('/')
-  async createCurrency(): Promise<Currencies> {
-    throw new BadRequestException();
+  async createCurrency(
+    @Body() currency: CreateCurrencyDTO,
+  ): Promise<Currencies> {
+    return await this.currenciesService.createCurrency(currency);
   }
 }
