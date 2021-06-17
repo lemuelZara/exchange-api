@@ -38,7 +38,7 @@ describe('CurrenciesRepository', () => {
       jest.spyOn(repository, 'findOne').mockReturnValue(undefined);
 
       await expect(repository.getCurrency('USD')).rejects.toThrow(
-        new InternalServerErrorException(),
+        new NotFoundException(`The currency ${mockData.currency} not found!`),
       );
     });
 

@@ -13,7 +13,7 @@ export class CurrenciesRepository extends Repository<Currencies> {
     const result = await this.findOne({ currency });
 
     if (!result) {
-      throw new InternalServerErrorException();
+      throw new NotFoundException(`The currency ${currency} not found!`);
     }
 
     return result;
