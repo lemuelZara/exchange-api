@@ -96,5 +96,11 @@ describe('CurrenciesController', () => {
         new BadRequestException(),
       );
     });
+
+    it('should be called service with correct params', async () => {
+      await controller.deleteCurrency('USD');
+
+      expect(service.deleteCurrency).toBeCalledWith('USD');
+    });
   });
 });
