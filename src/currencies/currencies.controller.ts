@@ -32,6 +32,6 @@ export class CurrenciesController {
 
   @Delete('/:currency')
   async deleteCurrency(@Param('currency') currency: string): Promise<void> {
-    throw new BadRequestException();
+    return await this.currenciesService.deleteCurrency(currency);
   }
 }
