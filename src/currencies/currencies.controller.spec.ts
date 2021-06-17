@@ -14,6 +14,7 @@ describe('CurrenciesController', () => {
       getCurrency: jest.fn(),
       createCurrency: jest.fn(),
       deleteCurrency: jest.fn(),
+      updateCurrency: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -101,6 +102,18 @@ describe('CurrenciesController', () => {
       await controller.deleteCurrency('USD');
 
       expect(service.deleteCurrency).toBeCalledWith('USD');
+    });
+  });
+
+  describe('UpdateCurrency', () => {
+    it('should be throw when service throws', async () => {
+      jest
+        .spyOn(service, 'updateCurrency')
+        .mockRejectedValue(new BadRequestException());
+
+      expect(controller.updateCurrency(mockData)).rejects.toThrow(
+        new BadRequestException(),
+      );
     });
   });
 });
