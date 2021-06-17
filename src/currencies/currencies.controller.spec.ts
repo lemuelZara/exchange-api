@@ -37,7 +37,7 @@ describe('CurrenciesController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('getCurrency', () => {
+  describe('GetCurrency', () => {
     it('should be throw when service throws', async () => {
       jest
         .spyOn(service, 'getCurrency')
@@ -76,6 +76,12 @@ describe('CurrenciesController', () => {
       await controller.createCurrency(mockData);
 
       expect(service.createCurrency).toBeCalledWith(mockData);
+    });
+
+    it('should be returns success service data', async () => {
+      jest.spyOn(service, 'createCurrency').mockResolvedValue(mockData);
+
+      expect(await service.createCurrency(mockData)).toEqual(mockData);
     });
   });
 });
