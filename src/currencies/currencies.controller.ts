@@ -1,10 +1,11 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
   Param,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { Currencies } from './currencies.entity';
 import { CurrenciesService } from './currencies.service';
@@ -20,6 +21,7 @@ export class CurrenciesController {
   }
 
   @Post('/')
+  @UsePipes(ValidationPipe)
   async createCurrency(
     @Body() currency: CreateCurrencyDTO,
   ): Promise<Currencies> {
