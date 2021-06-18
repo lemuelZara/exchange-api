@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { CurrenciesService } from '../currencies/currencies.service';
-import { ExchangeInputType } from './types/exchange-input.type';
+import { ExchangeInputDTO } from './dto/exchange-input.dto';
 import { ExchangeType } from './types/exchange.type';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class ExchangeService {
     from,
     to,
     amount,
-  }: ExchangeInputType): Promise<ExchangeType> {
+  }: ExchangeInputDTO): Promise<ExchangeType> {
     if (!from || !to || !amount) {
       throw new BadRequestException();
     }

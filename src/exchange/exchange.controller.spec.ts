@@ -1,8 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { ExchangeInputDTO } from './dto/exchange-input.dto';
 import { ExchangeController } from './exchange.controller';
 import { ExchangeService } from './exchange.service';
-import { ExchangeInputType } from './types/exchange-input.type';
 
 describe('ExchangeController', () => {
   let controller: ExchangeController;
@@ -23,7 +23,7 @@ describe('ExchangeController', () => {
 
     controller = module.get<ExchangeController>(ExchangeController);
     service = module.get<ExchangeService>(ExchangeService);
-    mockData = { from: 'USD', to: 'BRL', amount: 10 } as ExchangeInputType;
+    mockData = { from: 'USD', to: 'BRL', amount: 10 } as ExchangeInputDTO;
   });
 
   it('should be defined', () => {

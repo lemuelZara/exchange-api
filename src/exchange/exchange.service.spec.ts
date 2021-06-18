@@ -5,8 +5,8 @@ import {
 import { Test, TestingModule } from '@nestjs/testing';
 import { Currencies } from 'src/currencies/currencies.entity';
 import { CurrenciesService } from '../currencies/currencies.service';
+import { ExchangeInputDTO } from './dto/exchange-input.dto';
 import { ExchangeService } from './exchange.service';
-import { ExchangeInputType } from './types/exchange-input.type';
 
 describe('ExchangeService', () => {
   const USD = 1;
@@ -60,7 +60,7 @@ describe('ExchangeService', () => {
 
     service = module.get<ExchangeService>(ExchangeService);
     currenciesService = module.get<CurrenciesService>(CurrenciesService);
-    mockData = { from: 'USD', to: 'BRL', amount: 10 } as ExchangeInputType;
+    mockData = { from: 'USD', to: 'BRL', amount: 10 } as ExchangeInputDTO;
   });
 
   it('should be defined', () => {
