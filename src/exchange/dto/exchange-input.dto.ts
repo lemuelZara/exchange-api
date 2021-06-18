@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, Length } from 'class-validator';
+import { IsNotEmpty, IsNumberString, Length } from 'class-validator';
 
 export class ExchangeInputDTO {
   @IsNotEmpty()
@@ -10,6 +10,6 @@ export class ExchangeInputDTO {
   to: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsNumberString()
   amount: number;
 }
