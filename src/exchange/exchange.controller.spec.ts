@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ExchangeInputDTO } from './dto/exchange-input.dto';
 import { ExchangeController } from './exchange.controller';
 import { ExchangeService } from './exchange.service';
+import { ExchangeType } from './types/exchange.type';
 
 describe('ExchangeController', () => {
   let controller: ExchangeController;
@@ -45,6 +46,14 @@ describe('ExchangeController', () => {
       await controller.convertAmount(mockData);
 
       expect(service.convertAmount).toBeCalledWith(mockData);
+    });
+
+    it('should be returns success service data', async () => {
+      const mockReturn = { amount: 1 } as ExchangeType;
+
+      jest.spyOn(service, 'convertAmount').mockResolvedValue(mockReturn);
+
+      expect(await controller.convertAmount(mockData)).toEqual(mockReturn);
     });
   });
 });
