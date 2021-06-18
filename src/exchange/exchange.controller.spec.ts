@@ -40,5 +40,11 @@ describe('ExchangeController', () => {
         new BadRequestException(),
       );
     });
+
+    it('should be called service with correct params', async () => {
+      await controller.convertAmount(mockData);
+
+      expect(service.convertAmount).toBeCalledWith(mockData);
+    });
   });
 });
